@@ -41,3 +41,9 @@ export const apolloClient = new ApolloClient({
     },
   },
 });
+
+
+export const refetchQueries = () =>
+  apolloClient.refetchQueries({
+    include: 'active',
+  });

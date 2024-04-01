@@ -20,7 +20,9 @@ export class TaskService {
   }
 
   async getAllTask() {
-    return await taskRepository.find({ relations: { user: true } });
+    return await taskRepository.find({ relations: { user: true },order: {
+      id: 'DESC'
+  } });
   }
 
   async getTaskById(id: number) {

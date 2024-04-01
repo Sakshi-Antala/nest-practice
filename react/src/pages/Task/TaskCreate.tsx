@@ -6,7 +6,7 @@ import FormButton from "../../components/Form/Elements/FormButton";
 import { FormProvider, useForm, SubmitHandler } from "react-hook-form";
 import { DropDown } from "../../components/Form/Elements/DropDown";
 import taskStatusOptions from "./TaskStatusOptions";
-import { apolloClient } from "../../service/graphql/graphql";
+import { apolloClient, refetchQueries } from "../../service/graphql/graphql";
 import { gql, useLazyQuery, useMutation } from "@apollo/client";
 import { TaskForm } from "./TaskForm";
 import { MUTATION_TYPE_CREATE } from "../../service/graphql/mutation/mutationConstant";
@@ -16,7 +16,6 @@ import { Mutation } from "../../service/graphql/mutation/mutation.service";
 const TaskCreate = (props: ICreateTask) => {
   const { toggleTaskDialog } = props;
   const methods = useForm<ITask>();
-  const [getTaskById] = useLazyQuery(GET_TASK_BY_ID);
 
   const onSubmit = (taskData: ITask) => {
     Mutation(
@@ -26,11 +25,7 @@ const TaskCreate = (props: ICreateTask) => {
     ).then((response) => {
       if (response.data) {
         toggleTaskDialog();
-        // getTaskById({
-        //   variables: {
-        //     id: response.data.createTask.id,
-        //   },
-        // })
+        refetchQueries()
       }
     });
   };

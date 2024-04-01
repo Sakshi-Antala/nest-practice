@@ -7,10 +7,9 @@ import FormButton from "../../components/Form/Elements/FormButton";
 import { Datatable } from "../../components/Datatable/Datatable";
 import { Dialog } from "primereact/dialog";
 import { TaskUpdate } from "./TaskUpdate";
-import { ConfrimDialogBox } from "../../components/ConfrimDialog/ConfrimDialogBox";
-import { confirmDialog } from "primereact/confirmdialog";
 import { GET_All_TASK } from "../../service/graphql/queries/Task/task.query";
 import { useQuery } from "@apollo/client";
+import { ConfrimDialogBox } from "../../components/ConfrimDialogBox/ConfrimDialogBox";
 export const TaskList = (props: ITaskList) => {
   const { OpenModal, data, loading } = props;
   const [taskData, setTaskData] = useState<ITask>();
@@ -47,13 +46,6 @@ export const TaskList = (props: ITaskList) => {
           label="Delete"
           onClick={() => {
             setConfrimDialogs(true);
-            confirmDialog({
-              message: "Are you sure you want to proceed?",
-              header: "Confirmation",
-              icon: "pi pi-exclamation-triangle",
-              defaultFocus: "accept",
-              accept: deleteTask,
-            });
           }}
         />
       </div>
@@ -88,7 +80,7 @@ export const TaskList = (props: ITaskList) => {
         actionBodyTemplate={actionBody}
         OpenModal={OpenModal}
       />
-      {confirmDialogs && <ConfrimDialogBox />}
+      {confirmDialogs && <ConfrimDialogBox setConfrimDialogs={setConfrimDialogs} acceptFunc={deleteTask}/>}
     </>
   );
 };
